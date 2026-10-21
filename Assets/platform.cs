@@ -9,16 +9,25 @@ public class platform : MonoBehaviour
     [SerializeField] private float jumpForce;  
     public bool isTouchingGround;
     public int coinCollected = 0;
+    private Animator anim;
+    private SpriteRenderer sr;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        anim.SetFloat("speed", Mathf.Abs(moveX));
+        anim.SetFloat("yVelocity", rb.linearVelocityY);
+        anim.SetBool("isGrounded", isTouchingGround);
+
+        if (moveX > 0) sr.flipX = false;
+        else if (moveX < 0) sr.flipX = true;      
     }
 
     private void FixedUpdate()
